@@ -1,0 +1,110 @@
+mysql> use rashika;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_rashika |
++-------------------+
+| EMPLOYEE1         |
+| PERSON            |
+| STUDENT           |
++-------------------+
+3 rows in set (0.00 sec)
+
+mysql> create table rash(roll int,name varchar(20));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> set autocommit=off;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into rash(roll,name)values(01,'rashi');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into rash(roll,name)values(02,'ani');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from rash;
++------+-------+
+| roll | name  |
++------+-------+
+|    1 | rashi |
+|    2 | ani   |
++------+-------+
+2 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into rash(roll,name)values(03,'aami');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from rash;
++------+-------+
+| roll | name  |
++------+-------+
+|    1 | rashi |
+|    2 | ani   |
++------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into rash(roll,name)values(03,'aami');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into rash(roll,name)values(04,'ayshu');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> savepoint s1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into rash(roll,name)values(05,'athu');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> savepoint s2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into rash(roll,name)values(06,'ichu');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> savepoint s3;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from rash;
++------+-------+
+| roll | name  |
++------+-------+
+|    1 | rashi |
+|    2 | ani   |
+|    3 | aami  |
+|    4 | ayshu |
+|    5 | athu  |
+|    6 | ichu  |
++------+-------+
+6 rows in set (0.00 sec)
+
+mysql> rollback to s2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from rash;
++------+-------+
+| roll | name  |
++------+-------+
+|    1 | rashi |
+|    2 | ani   |
+|    3 | aami  |
+|    4 | ayshu |
+|    5 | athu  |
++------+-------+
+5 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> rollback to s1;
+ERROR 1305 (42000): SAVEPOINT s1 does not exist
+mysql> 
+
