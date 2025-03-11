@@ -316,4 +316,4 @@ c) DML - DELETE
 	mysql> select* from Invoice_item;
 	Empty set (0.00 sec)
 
-
+//VERIFIED
