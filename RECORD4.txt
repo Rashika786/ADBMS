@@ -289,3 +289,4 @@ b) OPTIMIZING DATABASE:  (GROUP BY, AGGREGATE FUNCTIONS)
 	+----------------------+
 	8 rows in set (0.00 sec)
 
+//VERIFIED
