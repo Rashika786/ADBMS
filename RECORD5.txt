@@ -1,0 +1,70 @@
+ACCESSING DATABASE:  (SUBQUERY)
+
+1.    List the product name and price of each invoice item. 
+
+	mysql> select pname,price from product where pid in(select pid from Invoice_item);
+	+--------+-------+
+	| pname  | price |
+	+--------+-------+
+	| pen    |  66.3 |
+	| pencil |    51 |
+	| rubber | 132.6 |
+	+--------+-------+
+	3 rows in set (0.00 sec)
+	
+2.    List the product names, only include their purchased quantity more than 3.
+
+	mysql> select pname from product where pid in(select pid from Invoice_item where quantity>3);
+	+--------+
+	| pname  |
+	+--------+
+	| pencil |
+	| rubber |
+	+--------+
+	2 rows in set (0.00 sec)
+
+3.    Find the product that has no sale. 
+
+	mysql> select pname from product where pid not in(select distinct pid from Invoice_item );
+	+--------+
+	| pname  |
+	+--------+
+	| scale  |
+	| cutter |
+	| soap   |
+	+--------+
+	3 rows in set (0.00 sec)
+
+4.    List the customer names who purchased the items ‘pen’ and ‘pencil’. 
+
+	mysql> insert into Invoice_item values(105,2,3);
+	Query OK, 1 row affected (0.00 sec)
+
+	mysql> select customer.name from customer where customer.id IN (select Invoice_master.cust_id from Invoice_master, Invoice_item where       Invoice_master.inv_id = Invoice_item.inv_id and Invoice_item.pid = (select pid from product where pname = 'pen')and Invoice_master.cust_id IN (select Invoice_master.cust_id from Invoice_master, Invoice_item where Invoice_master.inv_id = Invoice_item.inv_id and Invoice_item.pid = (select pid from product where pname = 'pencil')));
+	+------+
+	| name |
+	+------+
+	| abc  |
+	+------+
+	1 row in set (0.00 sec)
+	
+5.    Display the purchased product details of the customer ’xyz’. 
+
+	mysql> select product.pid, product.pname, product.price, Invoice_item.quantity from product, Invoice_item where product.pid = Invoice_item.pid AND Invoice_item.inv_id IN ( select Invoice_master.inv_id from Invoice_master where Invoice_master.cust_id = (select customer.id from customer where customer.name = 'xyz'));
+	+-----+--------+-------+----------+
+	| pid | pname  | price | quantity |
+	+-----+--------+-------+----------+
+	|   2 | pencil |    51 |        5 |
+	+-----+--------+-------+----------+
+	1 row in set (0.00 sec)
+
+6.    List the names of all customers who have purchased at least 2 products, make sure that no duplicate names in the result.
+
+	mysql> select customer.name from customer where customer.id IN (select Invoice_master.cust_id from Invoice_master where Invoice_master.inv_id IN (select Invoice_item.inv_id from Invoice_item where Invoice_item.pid IN ( select DISTINCT pid from Invoice_item where Invoice_item.inv_id = Invoice_master.inv_id)) AND (select COUNT(DISTINCT pid) from Invoice_item where Invoice_item.inv_id = Invoice_master.inv_id) >= 2);
+	+------+
+	| name |
+	+------+
+	| abc  |
+	+------+
+	1 row in set (0.00 sec)
+
