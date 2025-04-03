@@ -1,0 +1,127 @@
+PL/SQL PROGRAMS- STORED PROCEDURES 
+
+1.      Create a procedure to display all tables in the invoice database. 
+
+	mysql> delimiter //
+	mysql> show databases //
+	+--------------------+
+	| Database           |
+	+--------------------+
+	| CompanyDB          |
+	| INVOICE            |
+	| information_schema |
+	| mysql              |
+	| performance_schema |
+	| rashika            |
+	| sys                |
+	+--------------------+
+	7 rows in set (0.00 sec)
+
+	mysql> use INVOICE //
+	Reading table information for completion of table and column names
+	You can turn off this feature to get a quicker startup with -A
+
+	Database changed
+	mysql> create procedure mine()
+	    -> begin
+	    -> select * from customer;
+	    -> select * from product;
+	    -> select * from Invoice_item;
+	    -> select * from Invoice_master;
+	    -> end //
+	Query OK, 0 rows affected (0.02 sec)
+
+	mysql> call mine() //
+	+-------+------+-----------+---------+------------+
+	| id    | name | address   | city    | ph_no      |
+	+-------+------+-----------+---------+------------+
+	| 10002 | xyz  | xyz_house | ekm     | 9188105507 |
+	| 10003 | pqr  | apk_house | ksd     | 965648878  |
+	| 10005 | pkr  | pkr_house | mlp     | 7034534922 |
+	| 10006 | abc  | hdj_house | ekm     | 758465846  |
+	| 10007 | mrj  | fbj_house | calicut | NULL       |
+	| 10008 | kst  | kst_house | ekm     | NULL       |
+	| 10009 | gtf  | gtf_house | tvm     | 749578465  |
+	| 10010 | kef  | kef_house | ekm     | 6348574976 |
+	+-------+------+-----------+---------+------------+
+	8 rows in set (0.01 sec)
+
+	+-----+--------+-------+
+	| pid | pname  | price |
+	+-----+--------+-------+
+	|   1 | pen    |  66.3 |
+	|   2 | pencil |    51 |
+	|   3 | scale  | 107.1 |
+	|   4 | rubber | 132.6 |
+	|   5 | cutter |  1530 |
+	|   6 | soap   |    60 |
+	+-----+--------+-------+
+	6 rows in set (0.01 sec)
+
+	+--------+------+----------+
+	| inv_id | pid  | quantity |
+	+--------+------+----------+
+	|    101 |    2 |        5 |
+	|    103 |    2 |        1 |
+	|    104 |    4 |       10 |
+	|    105 |    1 |        2 |
+	|    105 |    2 |        3 |
+	+--------+------+----------+
+	5 rows in set (0.01 sec)
+
+	+--------+---------+------------+
+	| inv_id | cust_id | inv_date   |
+	+--------+---------+------------+
+	|    101 |   10002 | 2024-01-31 |
+	|    103 |   10003 | 2023-06-28 |
+	|    104 |   10003 | 2023-06-28 |
+	|    105 |   10006 | 2023-07-28 |
+	+--------+---------+------------+
+	4 rows in set (0.01 sec)
+
+	Query OK, 0 rows affected (0.01 sec)
+
+2.      Create a procedure to find greatest of 2 numbers.
+
+	mysql> create procedure greater(a int,b int)
+	    -> begin
+	    -> declare x,y int;
+	    -> set x=a;
+	    -> set y=b;
+	    -> if x>y then
+	    -> select x as 'greater';
+	    -> else 
+	    -> select y as 'greater';
+	    -> end if;
+	    -> end //
+	Query OK, 0 rows affected (0.00 sec)
+
+	mysql> call greater(9,3) //
+	+---------+
+	| greater |
+	+---------+
+	|       9 |
+	+---------+
+	1 row in set (0.00 sec)
+
+	Query OK, 0 rows affected (0.00 sec)
+
+3.      Create a procedure to display invoice details of a particular customer.
+
+	mysql> create procedure invDetails(N varchar(20))
+	    -> begin
+	    -> select customer.name,Invoice_master.*,Invoice_item.quantity,product.* from Invoice_item join Invoice_master on Invoice_master.inv_id=Invoice_item.inv_id join product on product.pid=Invoice_item.pid join customer on customer.id=Invoice_master.cust_id where customer.name=N;
+	    -> end //
+	Query OK, 0 rows affected (0.01 sec)
+
+	mysql> call invDetails('abc') //
+	+------+--------+---------+------------+----------+-----+--------+-------+
+	| name | inv_id | cust_id | inv_date   | quantity | pid | pname  | price |
+	+------+--------+---------+------------+----------+-----+--------+-------+
+	| abc  |    105 |   10006 | 2023-07-28 |        2 |   1 | pen    |  66.3 |
+	| abc  |    105 |   10006 | 2023-07-28 |        3 |   2 | pencil |    51 |
+	+------+--------+---------+------------+----------+-----+--------+-------+
+	2 rows in set (0.00 sec)
+
+	Query OK, 0 rows affected (0.00 sec)
+
