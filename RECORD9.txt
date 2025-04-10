@@ -1,0 +1,20 @@
+RECORD PROGRAM 9: PL/SQL - FUNCTIONS      
+
+1. Create a function to calculate price_range(low, medium, high) of each product. If price<=5 indicate as low, upto 50 indicate as medium, and     above as high.
+
+	mysql>  create function minmax(minn int) returns varchar(20) deterministic  begin return case when minn <=5 then 'low' when minn<=55 then 'medium' else 'high' end; end //
+	Query OK, 0 rows affected (0.01 sec)
+
+	mysql> select pname,price,minmax(price) as PRICE_RANGE from product //
+	+--------+-------+-------------+
+	| pname  | price | PRICE_RANGE |
+	+--------+-------+-------------+
+	| pen    |  66.3 | high        |
+	| pencil |    51 | medium      |
+	| scale  | 107.1 | high        |
+	| rubber | 132.6 | high        |
+	| cutter |  1530 | high        |
+	| soap   |    60 | high        |
+	+--------+-------+-------------+
+	6 rows in set (0.01 sec)
+
