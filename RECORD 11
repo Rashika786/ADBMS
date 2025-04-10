@@ -41,4 +41,4 @@ mysql> select @NAME_LIST//
 +--------------------------------------+
 1 row in set (0.01 sec)
 
-
+//VERIFIED
