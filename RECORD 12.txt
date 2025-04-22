@@ -1,0 +1,85 @@
+RECORD PROGRAM 12 -NoSQL CRUD
+
+1. Write a MongoDB query to create an INVOICE database and collections (CUSTOMER, PRODUCT) and its corresponding documents.
+
+	test> use INVOICE;
+	switched to db INVOICE
+
+	INVOICE> db.createCollection("customer")
+	{ ok: 1 }
+	INVOICE>  db.customer.insertMany([{id:1,name:"rashika",city:"TVM",ph_no:8489922983},{id:2,name:"aneesa",city:"CLT",ph_no:7886436709},{id:3,name:"ameena",city:"EKM",ph_no:7865789004}])
+
+	{
+	  acknowledged: true,
+	  insertedIds: {
+	    '0': ObjectId('68075a58cbb30ff76a544ca7'),
+	    '1': ObjectId('68075a58cbb30ff76a544ca8'),
+	    '2': ObjectId('68075a58cbb30ff76a544ca9')
+	  }
+	}
+
+
+	INVOICE> db.createCollection("product")
+	{ ok: 1 }
+
+	INVOICE>  db.product.insertMany([{id:101,name:"plate",price:60,quantity:5},{id:102,name:"pen",price:10,quantity:10},{id:103,name:"soap",price:45,quantitquantity:7}])
+
+	{
+	  acknowledged: true,
+	  insertedIds: {
+	    '0': ObjectId('68075ad4cbb30ff76a544caa'),
+	    '1': ObjectId('68075ad4cbb30ff76a544cab'),
+	    '2': ObjectId('68075ad4cbb30ff76a544cac')
+	  }
+	}
+
+
+2.  Write a MongoDB query to find all documents from the collection CUSTOMER.
+
+	INVOICE> db.customer.find()
+
+	[
+	  {
+	    _id: ObjectId('68075a58cbb30ff76a544ca7'),
+	    id: 1,
+	    name: 'rashika',
+	    city: 'TVM',
+	    ph_no: 8489922983
+	  },
+	  {
+	    _id: ObjectId('68075a58cbb30ff76a544ca8'),
+	    id: 2,
+	    name: 'aneesa',
+	    city: 'CLT',
+	    ph_no: 7886436709
+	  },
+	  {
+	    _id: ObjectId('68075a58cbb30ff76a544ca9'),
+	    id: 3,
+	    name: 'ameena',
+	    city: 'EKM',
+	    ph_no: 7865789004
+	  }
+	]
+
+
+3.  Write a MongoDB query to update the city in the collection CUSTOMER.
+
+	INVOICE> db.customer.updateOne({id:1},{$set:{city:"Calicut"}})
+
+	{
+	  acknowledged: true,
+	  insertedId: null,
+	  matchedCount: 1,
+	  modifiedCount: 1,
+	  upsertedCount: 0
+	}
+
+
+4. Write a MongoDB query to delete the first matched document whose city is “Calicut”.
+
+	INVOICE>  db.customer.deleteOne({city:"Calicut"})
+	
+	{ acknowledged: true, deletedCount: 1 }
+
+
