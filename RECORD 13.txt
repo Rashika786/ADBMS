@@ -1,0 +1,51 @@
+1.      Write a MongoDB query to display the customer documents having city ‘ekm’,’tvm’.
+
+	INVOICE> db.customer.find({city:{$in:["EKM","TVM"]}})
+
+	[
+	  {
+	    _id: ObjectId('68075a58cbb30ff76a544ca9'),
+	    id: 3,
+	    name: 'ameena',
+	    city: 'EKM',
+	    ph_no: 7865789004
+	  }
+	]
+
+
+2.     Write a MongoDB query to display all product documents their price >50.
+
+	INVOICE> db.product.find({price:{$gt:50}})
+
+	[
+	  {
+	    _id: ObjectId('68075ad4cbb30ff76a544caa'),
+	    id: 101,
+	    name: 'plate',
+	    price: 60,
+	    quantity: 5
+	  }
+	]
+
+
+3.     Write a MongoDB query to find customer documents who not live in ‘tvm’.
+
+	INVOICE> db.customer.find({city:{$ne:'TVM'}})
+
+	[
+	  {
+	    _id: ObjectId('68075a58cbb30ff76a544ca8'),
+	    id: 2,
+	    name: 'aneesa',
+	    city: 'CLT',
+	    ph_no: 7886436709
+	  },
+	  {
+	    _id: ObjectId('68075a58cbb30ff76a544ca9'),
+	    id: 3,
+	    name: 'ameena',
+	    city: 'EKM',
+	    ph_no: 7865789004
+	  }
+	]
+
